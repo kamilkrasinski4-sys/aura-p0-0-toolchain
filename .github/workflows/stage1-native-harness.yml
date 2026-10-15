@@ -145,6 +145,10 @@ jobs:
           set -euo pipefail
           LOG_FILE="p0_0_stage1_harness_execution.log"
           chmod +x ./p0_0_evidence_capture.sh ./verify_p0_0_snapshot.sh ./test_p0_0_harness.sh
+          # Ensure namespace-mapped users can read Python sources in this local checkout.
+          find . -type f -name '*.py' -exec chmod a+r {} +
+          test -r ./test_p0_0_harness.py || { echo "FAIL: harness Python source is not readable before namespace entry."; exit 1; }
+          stat -c "HARNESS_SOURCE_MODE=%A %a uid=%u gid=%g path=%n" ./test_p0_0_harness.py
 
           set +e
            sudo -n unshare -Urmn bash -c '
