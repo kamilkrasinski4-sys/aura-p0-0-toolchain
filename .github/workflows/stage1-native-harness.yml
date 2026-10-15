@@ -147,7 +147,7 @@ jobs:
           chmod +x ./p0_0_evidence_capture.sh ./verify_p0_0_snapshot.sh ./test_p0_0_harness.sh
 
           set +e
-          unshare -Urmn bash -c '
+          sudo -n unshare -Urmn bash -c '
             set -euo pipefail
             source .venv/bin/activate
             ip link set dev lo up
