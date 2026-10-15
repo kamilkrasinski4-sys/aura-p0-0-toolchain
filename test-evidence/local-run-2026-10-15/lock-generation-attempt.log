@@ -1,0 +1,3 @@
+FAIL: python3.12 is required; lock must be compiled for CPython 3.12.
+
+LOCK_GENERATION_EXIT=1

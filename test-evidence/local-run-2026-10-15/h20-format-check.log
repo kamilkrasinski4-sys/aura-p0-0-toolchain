@@ -1,0 +1,8 @@
+PYTHON_VERSION=3.13.5
+JSONSCHEMA_VERSION=4.26.0
+RFC3339_VALIDATOR_VERSION=0.1.4
+PASS H-17 capture -> raw-page archive -> manifest -> semantic validation + fork delta (local mocks)
+BASELINE_VALIDATION_EXIT=0
+INVALID_DATE_VALIDATION_EXIT=1
+FAIL: JSON Schema validation failed at ['capture_timestamp_utc']: '2026-10-15T21:03:21' is not a 'date-time'
+PASS H-20: validator rejected only the malformed date-time path as expected

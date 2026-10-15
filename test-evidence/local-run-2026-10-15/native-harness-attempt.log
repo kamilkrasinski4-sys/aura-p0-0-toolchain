@@ -1,0 +1,3 @@
+FATAL: harness requires git and real ssh-keygen in PATH. A test-only shim may be placed first in PATH for control-flow tests, but that does not validate OpenSSH SSHSIG interoperability.
+
+NATIVE_HARNESS_EXIT=2

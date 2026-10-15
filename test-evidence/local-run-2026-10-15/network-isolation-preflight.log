@@ -1,0 +1,9 @@
+PASS: isolated namespace reports only lo and no IPv4/IPv6 routes
+--- ip -o link show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+--- ip -4 route show
+
+--- ip -6 route show
+
+
+NETWORK_PREFLIGHT_EXIT=0

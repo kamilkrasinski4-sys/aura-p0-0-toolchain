@@ -1,0 +1,8 @@
+ENVIRONMENT IDENTIFICATION
+2026-10-15T21:33:07Z
+Linux 88b569bcf64c 6.18.44 #1 SMP Sat Sep 26 20:02:31 UTC 2026 x86_64 GNU/Linux
+Python 3.13.5
+pip 25.1.1 from /opt/pyvenv/lib/python3.13/site-packages/pip (python 3.13)
+git version 2.47.3
+/usr/bin/unshare
+/usr/sbin/ip
