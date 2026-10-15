@@ -20,7 +20,7 @@ bed7e640352abbdad713d917834efb9ccaaa865b5cf8e932fa99f23ac24225a8  ./p0_0_manifes
 a07f617c1080451fc4c73d1de7f7177577b01bf41e8d4b885c73661d0203407e  ./provenance/source-bootstrap-overlay-SHA256SUMS.txt
 0a99c60201c84c6ca965b7f9ccb82beaafdddf1bff7c8e6756e71d4721aa04a2  ./provenance/source-candidate-SHA256SUMS.txt
 f15be5b4690695b2a83dddb57202c9b782bbfe01be4cc98ccb3e6dc71ca0b6c1  ./requirements-stage1.in
-0a474e8cf3b17dc588e3c905a0c7c2e1b84cbd2197c574d7b01927240695622c  ./scripts/regenerate_stage1_lock.sh
+68ec391c671536fa304db1f4e58b5fb61d2f91091891b186b48ae1320e322333  ./scripts/regenerate_stage1_lock.sh
 02793c0d64244241a179662770a522e7ed7fe44be3e273e56d728d1732f72d8e  ./scripts/verify_stage1_lock.sh
 c331cb70e57fd3f1e055982e0a1313a3a464d3a845f388b4f2ed3417465fc4e0  ./test-evidence/local-run-2026-10-15/environment.log
 af7b92cb1cadf2bbffac9e3fbde13047adff372384ce53172ed2ba7e73593c2e  ./test-evidence/local-run-2026-10-15/h20-format-check.log

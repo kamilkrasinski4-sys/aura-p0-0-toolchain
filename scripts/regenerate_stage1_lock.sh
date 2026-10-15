@@ -18,7 +18,7 @@ command -v "${PYTHON_BIN}" >/dev/null 2>&1 || fail "${PYTHON_BIN} is required; l
 
 PY_VERSION="$(${PYTHON_BIN} -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
 [[ "${PY_VERSION}" == "3.12" ]] || fail "Expected CPython 3.12; found ${PY_VERSION}."
-PIPTOOLS_VERSION="$(${PYTHON_BIN} -c 'import piptools; print(piptools.__version__)' 2>/dev/null)" || fail "pip-tools must be pre-provisioned into ${PYTHON_BIN}; no unpinned bootstrap is permitted."
+PIPTOOLS_VERSION="$(${PYTHON_BIN} -c 'import importlib.metadata; print(importlib.metadata.version("pip-tools"))' 2>/dev/null)" || fail "pip-tools must be pre-provisioned into ${PYTHON_BIN}; no unpinned bootstrap is permitted."
 [[ "${PIPTOOLS_VERSION}" == "7.4.1" ]] || fail "Expected approved pip-tools 7.4.1, found ${PIPTOOLS_VERSION}."
 printf 'LOCK BUILDER: python=%s pip-tools=%s platform=%s\n' "${PY_VERSION}" "${PIPTOOLS_VERSION}" "$(uname -srm)"
 
