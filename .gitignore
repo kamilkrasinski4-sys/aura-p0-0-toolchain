@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.swp
+.DS_Store
+.venv/
+requirements-stage1.lock.*
+*.log
+test_ssh_key*
+allowed_signers_preflight
+test_payload.txt*
+invalid_manifest.json
+format_error.log
