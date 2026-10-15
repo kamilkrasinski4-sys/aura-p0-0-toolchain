@@ -1,0 +1,19 @@
+{
+  "artifact": "AURA P0-0 Toolchain Seed",
+  "version": "1.0.2",
+  "artifact_status": "LOCAL_SEED_NOT_DEPLOYED",
+  "target_repository": "aura-p0-0-toolchain",
+  "recommended_visibility": "private",
+  "target_account_requirement": "separately authenticated audit/control-plane profile; not vaidt",
+  "base_package": "AURA_P0_0_Remediation_Pack_v1.0.2_CANDIDATE.zip",
+  "overlay_package": "AURA_P0_0_Bootstrap_Lock_Overlay_v1.0.2.zip",
+  "base_package_sha256": "1b3a73625a56a1ede019945bda6cd3174320f4a4452e853364dbb906e99c4984",
+  "overlay_package_sha256": "dbadc56bc7e0bc736dbf28601487bd0bb9f66208fc780fe5c52eb2be351ab224",
+  "merged_file_count": 36,
+  "notes": [
+    "Merged from provided local candidate and overlay files.",
+    "Original checksum manifests are retained under provenance/.",
+    "Root SHA256SUMS.txt hashes every merged payload file except itself and this build manifest.",
+    "No GitHub mutation, workflow dispatch, lock generation, or CI execution has occurred."
+  ]
+}

@@ -1,0 +1,4 @@
+# Root dependency specification for the Stage 1 validator environment.
+# Compile on the target environment (CPython 3.12, Ubuntu 24.04 x86_64)
+# with the trusted/pre-provisioned pip-tools version recorded in the build log.
+jsonschema[format-nongpl]==4.23.0
