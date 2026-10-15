@@ -204,7 +204,11 @@ def validate_manifest(schema_path: Path, manifest_path: Path, snapshot: Path) ->
         fail(f"Schema initialization failed: {exc}")
 
     timestamp = manifest.get("capture_timestamp_utc", "")
-    if not isinstance(timestamp, str) or not timestamp.endswith("Z"):
+    if not isinstance(timestamp, str):
+        fail("JSON Schema validation failed at ['capture_timestamp_utc']: value is not a 'date-time' string")
+    if not re.search(r"(?:Z|[+-]\d{2}:\d{2})$", timestamp):
+        fail("JSON Schema validation failed at ['capture_timestamp_utc']: value is not a 'date-time' (explicit timezone offset required)")
+    if not timestamp.endswith("Z"):
         fail("capture_timestamp_utc must be expressed in UTC using the RFC 3339 Z suffix")
 
     declared_artifact = manifest.get("schema_artifact", {})
