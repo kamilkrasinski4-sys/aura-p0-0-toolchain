@@ -158,7 +158,7 @@ jobs:
           export HARNESS_ROOT
 
           set +e
-           sudo -n unshare -Urmn bash -c '
+           sudo -n env "HARNESS_ROOT=${HARNESS_ROOT}" unshare -Urmn bash -c '
             set -euo pipefail
             source .venv/bin/activate
             cd "${HARNESS_ROOT}"
