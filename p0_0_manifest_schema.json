@@ -1,0 +1,491 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aura-protocol.org/schemas/p0-0-evidence-manifest.v3-strict.json",
+  "title": "AuraProtocolEvidenceManifestP0_0_v3_Strict",
+  "description": "Strict flat manifest contract for the AURA P0-0 evidence snapshot. Semantic uniqueness and artifact reconciliation are enforced by the validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_artifact",
+    "capture_session_id",
+    "capture_timestamp_utc",
+    "auditor_identity",
+    "capture_status",
+    "environment_metadata",
+    "repositories"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "schema_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file_name",
+        "sha256"
+      ],
+      "properties": {
+        "file_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "capture_session_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "capture_timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "auditor_identity": {
+      "type": "string",
+      "minLength": 3
+    },
+    "capture_status": {
+      "type": "string",
+      "enum": [
+        "CAPTURE_COMPLETED",
+        "CAPTURE_COMPLETED_WITH_EXCEPTIONS"
+      ]
+    },
+    "environment_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "git_version",
+        "curl_version",
+        "jq_version",
+        "python_version",
+        "gh_cli_version",
+        "host_os",
+        "host_arch"
+      ],
+      "properties": {
+        "git_version": {
+          "type": "string"
+        },
+        "curl_version": {
+          "type": "string"
+        },
+        "jq_version": {
+          "type": "string"
+        },
+        "python_version": {
+          "type": "string"
+        },
+        "gh_cli_version": {
+          "type": "string"
+        },
+        "host_os": {
+          "type": "string"
+        },
+        "host_arch": {
+          "type": "string"
+        }
+      }
+    },
+    "repositories": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repository_name",
+          "repository_full_name",
+          "source_git_url",
+          "visibility",
+          "is_fork",
+          "default_branch",
+          "head_commit_sha",
+          "total_commits_on_default_branch",
+          "git_refs_sha256",
+          "git_bundle",
+          "git_restoration_check",
+          "upstream_analysis",
+          "github_api_artifacts"
+        ],
+        "properties": {
+          "repository_name": {
+            "type": "string",
+            "enum": [
+              "Aura-vNEXT",
+              "Aura-Guard",
+              "Crystal-panel-Aura-Protection",
+              "aura-guard-v1.3",
+              "aura-specification",
+              "Aura-Conformance-Kit",
+              "Authority",
+              "inclusion",
+              "acode-plugin-docs",
+              "acodex_server",
+              "termux-packages",
+              "Aura-Release-Management",
+              "aura-poc-a-core-v3.3"
+            ]
+          },
+          "repository_full_name": {
+            "type": "string",
+            "pattern": "^vaidt/[A-Za-z0-9_.-]+$"
+          },
+          "source_git_url": {
+            "type": "string",
+            "pattern": "^https://github\\.com/vaidt/[A-Za-z0-9_.-]+\\.git$"
+          },
+          "visibility": {
+            "type": "string",
+            "const": "public"
+          },
+          "is_fork": {
+            "type": "boolean"
+          },
+          "default_branch": {
+            "type": "string",
+            "minLength": 1
+          },
+          "head_commit_sha": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$"
+          },
+          "total_commits_on_default_branch": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "git_refs_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "git_bundle": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "file_name",
+              "sha256",
+              "size_bytes",
+              "bundle_verify_status"
+            ],
+            "properties": {
+              "file_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "bundle_verify_status": {
+                "type": "string",
+                "enum": [
+                  "PASS",
+                  "FAIL"
+                ]
+              }
+            }
+          },
+          "git_restoration_check": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_fsck_status",
+              "source_fsck_exit_code",
+              "source_unreachable_objects_detected",
+              "fsck_status",
+              "fsck_exit_code",
+              "reference_match_status",
+              "unreachable_objects_detected"
+            ],
+            "properties": {
+              "source_fsck_status": {
+                "type": "string",
+                "enum": [
+                  "CLEAN",
+                  "CORRUPTED",
+                  "HAS_UNREACHABLE_OBJECTS",
+                  "ERROR",
+                  "NOT_RUN"
+                ]
+              },
+              "source_fsck_exit_code": {
+                "type": "integer"
+              },
+              "source_unreachable_objects_detected": {
+                "type": "boolean"
+              },
+              "fsck_status": {
+                "type": "string",
+                "enum": [
+                  "CLEAN",
+                  "CORRUPTED",
+                  "HAS_UNREACHABLE_OBJECTS",
+                  "ERROR",
+                  "NOT_RUN"
+                ]
+              },
+              "fsck_exit_code": {
+                "type": "integer"
+              },
+              "reference_match_status": {
+                "type": "string",
+                "enum": [
+                  "EXACT_MATCH",
+                  "MISMATCH",
+                  "NOT_RUN"
+                ]
+              },
+              "unreachable_objects_detected": {
+                "type": "boolean"
+              }
+            }
+          },
+          "upstream_analysis": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "upstream_tracked",
+              "upstream_repo",
+              "upstream_default_branch",
+              "upstream_metadata_json_sha256",
+              "ahead_count",
+              "behind_count",
+              "delta_status"
+            ],
+            "properties": {
+              "upstream_tracked": {
+                "type": "boolean"
+              },
+              "upstream_repo": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "upstream_default_branch": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "upstream_metadata_json_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^([0-9a-f]{64})$"
+              },
+              "ahead_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "behind_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "delta_status": {
+                "type": "string",
+                "enum": [
+                  "NOT_A_FORK",
+                  "ZERO_DELTA",
+                  "FORK_AHEAD",
+                  "UPSTREAM_AHEAD",
+                  "DIVERGED",
+                  "UPSTREAM_METADATA_MISSING",
+                  "UNREACHABLE_UPSTREAM",
+                  "ANALYSIS_FAILED"
+                ]
+              }
+            }
+          },
+          "github_api_artifacts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "metadata_json_sha256",
+              "workflows_json_sha256",
+              "workflows_page_count",
+              "workflows_record_count",
+              "workflows_pagination_complete",
+              "workflows_pagination_trace_file",
+              "workflows_pagination_trace_sha256",
+              "actions_runs_json_sha256",
+              "actions_runs_page_count",
+              "actions_runs_record_count",
+              "actions_runs_pagination_complete",
+              "actions_runs_pagination_trace_file",
+              "actions_runs_pagination_trace_sha256",
+              "releases_json_sha256",
+              "releases_page_count",
+              "releases_record_count",
+              "releases_pagination_complete",
+              "releases_pagination_trace_file",
+              "releases_pagination_trace_sha256",
+              "tags_json_sha256",
+              "tags_page_count",
+              "tags_record_count",
+              "tags_pagination_complete",
+              "tags_pagination_trace_file",
+              "tags_pagination_trace_sha256",
+              "issues_prs_json_sha256",
+              "issues_prs_page_count",
+              "issues_prs_record_count",
+              "issues_prs_pagination_complete",
+              "issues_prs_pagination_trace_file",
+              "issues_prs_pagination_trace_sha256"
+            ],
+            "properties": {
+              "metadata_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "workflows_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "workflows_page_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "workflows_record_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "workflows_pagination_complete": {
+                "type": "boolean",
+                "const": true
+              },
+              "workflows_pagination_trace_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "workflows_pagination_trace_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "actions_runs_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "actions_runs_page_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "actions_runs_record_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "actions_runs_pagination_complete": {
+                "type": "boolean",
+                "const": true
+              },
+              "actions_runs_pagination_trace_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "actions_runs_pagination_trace_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "releases_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "releases_page_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "releases_record_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "releases_pagination_complete": {
+                "type": "boolean",
+                "const": true
+              },
+              "releases_pagination_trace_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "releases_pagination_trace_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "tags_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "tags_page_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "tags_record_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "tags_pagination_complete": {
+                "type": "boolean",
+                "const": true
+              },
+              "tags_pagination_trace_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tags_pagination_trace_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "issues_prs_json_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "issues_prs_page_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "issues_prs_record_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "issues_prs_pagination_complete": {
+                "type": "boolean",
+                "const": true
+              },
+              "issues_prs_pagination_trace_file": {
+                "type": "string",
+                "minLength": 1
+              },
+              "issues_prs_pagination_trace_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "note": {
+      "type": "string",
+      "description": "The schema cannot express uniqueness of object properties by repository_name; p0_0_manifest_validate.py enforces the exact 13-name set."
+    }
+  }
+}
