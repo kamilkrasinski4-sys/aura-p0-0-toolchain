@@ -145,12 +145,15 @@ jobs:
           set -euo pipefail
           LOG_FILE="p0_0_stage1_harness_execution.log"
           chmod +x ./p0_0_evidence_capture.sh ./verify_p0_0_snapshot.sh ./test_p0_0_harness.sh
+           runner_uid="$(id -u)"
+           runner_gid="$(id -g)"
 
           set +e
-          sudo -n unshare -Urmn bash -c '
+           sudo -n unshare --user --map-users="0:${runner_uid}:1" --map-groups="0:${runner_gid}:1" --mount --net bash -c '
             set -euo pipefail
             source .venv/bin/activate
             ip link set dev lo up
+             echo "AURA_NETWORK_ISOLATION_LOG_BEGIN"
 
             link_output="$(ip -o link show)"
             line_count="$(printf "%s\\n" "${link_output}" | wc -l | tr -d " ")"
@@ -176,12 +179,15 @@ jobs:
               printf "%s\n" "${routes4}"
               echo "--- ip -6 route show"
               printf "%s\n" "${routes6}"
-            } | tee p0_0_stage1_network_isolation.log
+             }
+             echo "AURA_NETWORK_ISOLATION_LOG_END"
 
             ./test_p0_0_harness.sh
           ' 2>&1 | tee "${LOG_FILE}"
           pipeline_status=("${PIPESTATUS[@]}")
           set -e
+           awk '/^AURA_NETWORK_ISOLATION_LOG_BEGIN$/ { capture=1; next } /^AURA_NETWORK_ISOLATION_LOG_END$/ { capture=0; next } capture { print }' "${LOG_FILE}" > p0_0_stage1_network_isolation.log
+           grep -Fq "PASS CI-04: current harness namespace has only lo and no IPv4/IPv6 routes." p0_0_stage1_network_isolation.log || { echo "FAIL CI-04: network isolation log lacks the PASS assertion."; exit 1; }
 
           harness_status="${pipeline_status[0]}"
           tee_status="${pipeline_status[1]}"
