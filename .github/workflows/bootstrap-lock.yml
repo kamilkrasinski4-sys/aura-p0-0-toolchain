@@ -55,7 +55,7 @@ jobs:
             echo "--- install bootstrap resolver"
             python3.12 -m pip install --disable-pip-version-check --no-input "pip-tools==7.4.1"
             echo "--- resolver provenance"
-            python3.12 -c 'import piptools, sys; print("python=" + sys.version.splitlines()[0]); print("pip-tools=" + piptools.__version__)'
+            python3.12 -c 'import importlib.metadata, sys; print("python=" + sys.version.splitlines()[0]); print("pip-tools=" + importlib.metadata.version("pip-tools"))'
             python3.12 -m pip freeze | sort
             echo "--- input/tooling fingerprints before generation"
             sha256sum \
