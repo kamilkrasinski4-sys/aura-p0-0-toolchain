@@ -145,11 +145,9 @@ jobs:
           set -euo pipefail
           LOG_FILE="p0_0_stage1_harness_execution.log"
           chmod +x ./p0_0_evidence_capture.sh ./verify_p0_0_snapshot.sh ./test_p0_0_harness.sh
-           runner_uid="$(id -u)"
-           runner_gid="$(id -g)"
 
           set +e
-           sudo -n unshare --user --map-users="0:${runner_uid}:1" --map-groups="0:${runner_gid}:1" --mount --net bash -c '
+           sudo -n unshare -Urmn bash -c '
             set -euo pipefail
             source .venv/bin/activate
             ip link set dev lo up
