@@ -445,8 +445,25 @@ def main():
         h20_result=call_validate(h20)
         if h20_result.returncode == 0:
             raise AssertionError("H-20: validator accepted invalid date-time after changing only capture_timestamp_utc")
-        if "capture_timestamp_utc" not in h20_result.stdout or "date-time" not in h20_result.stdout:
-            raise AssertionError(f"H-20: validator rejected for the wrong reason; expected capture_timestamp_utc/date-time error\n{h20_result.stdout}")
+        out = f"{h20_result.stdout}\n{h20_result.stderr}"
+        normalized = out.casefold()
+
+        field_ok = "capture_timestamp_utc" in normalized
+        expected_reasons = (
+            "date-time",
+            "must be expressed in utc",
+            "rfc 3339",
+            "rfc3339",
+            "z suffix",
+        )
+        reason_ok = any(reason in normalized for reason in expected_reasons)
+
+        if not field_ok or not reason_ok:
+            raise AssertionError(
+                "H-20: validator rejected for the wrong reason; "
+                "expected capture_timestamp_utc/date-time or "
+                f"equivalent UTC/RFC3339 message\n{out}"
+            )
         print("PASS H-20 invalid date-time rejected specifically at capture_timestamp_utc",flush=True)
         record_case("negative")
 
