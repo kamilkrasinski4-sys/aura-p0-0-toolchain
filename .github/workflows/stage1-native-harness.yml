@@ -85,7 +85,6 @@ jobs:
           {
             python3.12 -m venv .venv
             source .venv/bin/activate
-            cd "${HARNESS_ROOT}"
             python -m pip install --require-hashes --no-deps -r requirements-stage1.lock
             python -m pip check
             python - <<'PY'
