@@ -85,6 +85,7 @@ jobs:
           {
             python3.12 -m venv .venv
             source .venv/bin/activate
+            cd "${HARNESS_ROOT}"
             python -m pip install --require-hashes --no-deps -r requirements-stage1.lock
             python -m pip check
             python - <<'PY'
@@ -149,11 +150,19 @@ jobs:
           find . -type f -name '*.py' -exec chmod a+r {} +
           test -r ./test_p0_0_harness.py || { echo "FAIL: harness Python source is not readable before namespace entry."; exit 1; }
           stat -c "HARNESS_SOURCE_MODE=%A %a uid=%u gid=%g path=%n" ./test_p0_0_harness.py
+          HARNESS_ROOT="/tmp/aura-p0-0-stage1-harness-${GITHUB_RUN_ID}"
+          rm -rf "${HARNESS_ROOT}"
+          mkdir -p "${HARNESS_ROOT}"
+          git ls-files -z | tar --null -T - -cf - | tar -xf - -C "${HARNESS_ROOT}"
+          chmod -R a+rX "${HARNESS_ROOT}"
+          test -r "${HARNESS_ROOT}/test_p0_0_harness.py" || { echo "FAIL: isolated harness copy is not readable."; exit 1; }
+          export HARNESS_ROOT
 
           set +e
            sudo -n unshare -Urmn bash -c '
             set -euo pipefail
             source .venv/bin/activate
+            cd "${HARNESS_ROOT}"
             ip link set dev lo up
              echo "AURA_NETWORK_ISOLATION_LOG_BEGIN"
 
